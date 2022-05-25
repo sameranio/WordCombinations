@@ -4,23 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection;
 
 namespace WordCombinations
 {
     public class FileControl
     {
+        /// <summary>
+        /// Read out the file at the given source
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns>a list of the type word.</returns>
         public List<Word>? Read(string source)
         {
             if (File.Exists(source))
             {
                 List<Word> readWords = new List<Word>();
-                FileStream fs = new FileStream(source, FileMode.Open);
 
-                using (StreamReader reader = new StreamReader(fs))
+                foreach (string line in File.ReadLines(source))
                 {
                     Word word;
 
-                    string? line = reader.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line))
                     {
                         word = new Word(line);
@@ -34,16 +38,30 @@ namespace WordCombinations
             return null;
         }
 
+        /// <summary>
+        /// Write the given list out in the output.txt file
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
         public Boolean Write(List<string> words)
         {
-            using StreamWriter file = new("%temp%/output.txt");
+            using StreamWriter file = new("Output.txt");
 
-            foreach (string word in words)
+            if (file != null)
             {
-                file.Write(word.ToString());
-            }
+                foreach (string word in words)
+                {
+                    file.Write(string.Concat(word.ToString(), "\n"));
+                }
 
-            return true;
+                file.Close();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

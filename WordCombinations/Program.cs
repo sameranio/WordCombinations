@@ -1,9 +1,10 @@
 ﻿using WordCombinations;
 
 string? source;
+string? wordLengthToMatch;
+int wordLength;
 List<Word>? words;
 List<string> outputWords;
-string path = "../../../";
 
 Console.WriteLine("Enter sourcefile to use (default is input.txt)");
 source = Console.ReadLine();
@@ -13,7 +14,9 @@ if (string.IsNullOrEmpty(source))
     source = "input.txt";
 }
 
-Console.WriteLine("{0} is the sourcefile", source);
+Console.WriteLine("Enter length to match words to (default is 6)");
+wordLengthToMatch = Console.ReadLine();
+Int32.TryParse(wordLengthToMatch, out wordLength);
 
 FileControl file = new FileControl();
 
@@ -21,11 +24,12 @@ words = file.Read(source);
 
 if (words != null)
 {
-    foreach (Word word in words)
-    {
-        Console.WriteLine("Word: {0}, Length of word: {1}", word.Text, word.Length);
-    }
-} else
+    Word word = new Word(wordLength);
+    outputWords = word.CombinedWords(words);
+
+    file.Write(outputWords);
+}
+else
 {
     Console.Write("No file was found.");
 }

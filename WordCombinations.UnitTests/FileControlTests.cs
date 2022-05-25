@@ -1,6 +1,3 @@
-global using NUnit.Framework;
-global using WordCombinations;
-
 namespace WordCombinations.UnitTests
 {
     public class FileControlTests
@@ -10,7 +7,7 @@ namespace WordCombinations.UnitTests
         {
             FileControl file = new FileControl();
 
-            List<Word>? words = file.Read("input.txt");
+            List<Word>? words = file.Read("C:\\Users\\samug\\AppData\\Local\\Temp\\input.txt");
 
             Assert.IsNotNull(words);
         }
@@ -18,15 +15,17 @@ namespace WordCombinations.UnitTests
         public void WriteFile_WithFileText_ReturnsTrue()
         {
             FileControl file = new FileControl();
-            List<Word> words = new List<Word>();
-            Word word1 = new Word("Test1");
-            Word word2 = new Word("Test2");
-            Word word3 = new Word("Test3");
+            List<string> words = new List<string>();
+            string word1 = "Test1";
+            string word2 = "Test2";
+            string word3 = "Test3";
             words.Add(word1);
             words.Add(word2);
             words.Add(word3);
 
-            Boolean completed = file.Write(words)
+            Boolean completed = file.Write(words);
+
+            Assert.IsTrue(completed);
         }
     }
 }
