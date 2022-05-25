@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WordCombinations
+﻿namespace WordCombinations
 {
     public class Word
     {
@@ -35,11 +29,12 @@ namespace WordCombinations
             List<string> wordsToMatchAgainst = words.Where(x => x.Length == WordLengthToBuild).Select(x => x.Text.ToString()).ToList();
             List<string> wordsToMatch = words.Where(x => x.Length != WordLengthToBuild).Select(x => x.Text.ToString()).ToList();
             List<string> combinedWords = new List<string>();
+            List<string> usedWords = new List<string>();
 
             foreach(string firstPart in wordsToMatch)
             {
                 int lengthToCombineWith = WordLengthToBuild - firstPart.Length;
-                List<string> wordsToCombineWith = wordsToMatch.Where(x => x.Length == lengthToCombineWith).ToList();
+                List<string> wordsToCombineWith = wordsToMatch.Where(x => x.Length == lengthToCombineWith).Except(usedWords).ToList();
 
                 foreach(string secondPart in wordsToCombineWith)
                 {
@@ -53,6 +48,8 @@ namespace WordCombinations
                         break;
                     }
                 }
+
+                usedWords.Add(firstPart);
             }
 
             return combinedWords;
